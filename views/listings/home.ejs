@@ -1,0 +1,61 @@
+<% layout("/layouts/boilerplate") -%>
+
+<main class="home-page">
+    <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-hero-content">
+            <p class="home-eyebrow"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Make room for somewhere new</p>
+            <h1 id="home-title">Find a stay<br>that feels like <em>you.</em></h1>
+            <p class="home-intro">A quiet cabin, a sunlit coast, a city worth getting lost in. Your next favorite place is waiting.</p>
+            <form class="home-search" action="/listings" method="GET" role="search">
+                <label class="visually-hidden" for="homeDestination">Where do you want to go?</label>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                <input id="homeDestination" type="search" name="search" placeholder="Try a destination or stay name" aria-label="Search destinations">
+                <button class="btn home-search-button" type="submit"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Search stays</span></button>
+            </form>
+            <a class="home-browse-link" href="/listings">Or browse all stays <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="hero-caption"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Your next escape starts here</div>
+    </section>
+
+    <section class="home-categories" aria-labelledby="category-title">
+        <div class="home-section-heading">
+            <div>
+                <p class="home-section-kicker">A stay for every kind of trip</p>
+                <h2 id="category-title">Where will you wake up?</h2>
+            </div>
+            <a class="home-section-link" href="/listings">Explore every stay <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="home-category-grid">
+            <a class="home-category home-category-coast" href="/listings?category=Beach">
+                <span class="category-icon"><i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i></span>
+                <span class="category-copy"><strong>By the water</strong><small>Beach stays & lakefront hideaways</small></span>
+                <i class="fa-solid fa-arrow-up-right-from-square category-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="home-category home-category-mountain" href="/listings?category=Mountains">
+                <span class="category-icon"><i class="fa-solid fa-mountain-sun" aria-hidden="true"></i></span>
+                <span class="category-copy"><strong>Up in the mountains</strong><small>Fresh air, cabins & big views</small></span>
+                <i class="fa-solid fa-arrow-up-right-from-square category-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="home-category home-category-city" href="/listings?category=City">
+                <span class="category-icon"><i class="fa-solid fa-city" aria-hidden="true"></i></span>
+                <span class="category-copy"><strong>Into the city</strong><small>Local stays close to it all</small></span>
+                <i class="fa-solid fa-arrow-up-right-from-square category-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="home-category home-category-country" href="/listings?category=Countryside">
+                <span class="category-icon"><i class="fa-solid fa-tree" aria-hidden="true"></i></span>
+                <span class="category-copy"><strong>Out in the open</strong><small>Slow days in the countryside</small></span>
+                <i class="fa-solid fa-arrow-up-right-from-square category-arrow" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+
+    <section class="home-host-banner" aria-labelledby="host-title">
+        <div class="host-banner-mark" aria-hidden="true"><i class="fa-regular fa-compass"></i></div>
+        <div>
+            <p class="home-section-kicker">Have a place to share?</p>
+            <h2 id="host-title">Turn your space into someone’s next story.</h2>
+            <p>Welcome travelers and share what makes your place special.</p>
+        </div>
+        <a href="/listings/new" class="btn host-banner-button">List your place <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </section>
+</main>

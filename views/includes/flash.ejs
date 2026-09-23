@@ -1,13 +1,17 @@
 <%if(success && success.length){%>
-<div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
-  <%= success %>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="flash-message flash-success alert alert-dismissible fade show" role="status" aria-live="polite" data-flash-timeout="5000">
+  <span class="flash-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+  <span class="flash-copy"><span class="flash-title">All set</span><span class="flash-text"><%= success %></span></span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Dismiss message"></button>
+  <span class="flash-progress" aria-hidden="true"></span>
 </div>
 <% } %>
 
 <%if(error && error.length){%>
-<div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
-  <%= error %>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="flash-message flash-error alert alert-dismissible fade show" role="alert" aria-live="assertive" data-flash-timeout="7000">
+  <span class="flash-icon" aria-hidden="true"><i class="fa-solid fa-exclamation"></i></span>
+  <span class="flash-copy"><span class="flash-title">Something needs attention</span><span class="flash-text"><%= error %></span></span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Dismiss message"></button>
+  <span class="flash-progress" aria-hidden="true"></span>
 </div>
 <% } %>

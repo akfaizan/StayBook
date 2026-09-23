@@ -1,77 +1,85 @@
 <% layout("/layouts/boilerplate") -%>
 
+<main class="browse-page">
+    <section class="browse-intro">
+        <div><p class="browse-eyebrow"><i class="fa-solid fa-sparkles"></i> STAYBOOK COLLECTION</p>
+        <h1><%= search ? 'Find your kind of getaway' : category ? category + ' stays' : 'Find a place to stay' %></h1>
+        <p class="browse-subtitle"><%= search ? 'Explore stays matching “' + search + '”.' : 'Thoughtful stays for weekends away, long escapes, and everything between.' %></p></div>
+        <div class="browse-result-count"><strong><%= allListings.length %></strong><span><%= allListings.length === 1 ? 'stay on this page' : 'stays on this page' %></span></div>
+    </section>
+
     <!-- Filter Bar -->
-<div class="filter-bar">
+<div class="filter-bar browse-filter-bar">
 
     <!-- Categories -->
     <div class="filter-items">
 
-    <a href="/listings?category=Trending" class="filter-item">
+    <a href="/listings?category=Trending" class="filter-item <%= category === 'Trending' ? 'active' : '' %>">
         <i class="fa-solid fa-fire"></i>
         <span>Trending</span>
     </a>
 
-    <a href="/listings?category=Beach" class="filter-item">
+    <a href="/listings?category=Beach" class="filter-item <%= category === 'Beach' ? 'active' : '' %>">
         <i class="fa-solid fa-umbrella-beach"></i>
         <span>Beach</span>
     </a>
 
-    <a href="/listings?category=Mountains" class="filter-item">
+    <a href="/listings?category=Mountains" class="filter-item <%= category === 'Mountains' ? 'active' : '' %>">
         <i class="fa-solid fa-mountain"></i>
         <span>Mountains</span>
     </a>
 
-    <a href="/listings?category=Cabins" class="filter-item">
+    <a href="/listings?category=Cabins" class="filter-item <%= category === 'Cabins' ? 'active' : '' %>">
         <i class="fa-solid fa-house"></i>
         <span>Cabins</span>
     </a>
 
-    <a href="/listings?category=Camping" class="filter-item">
+    <a href="/listings?category=Camping" class="filter-item <%= category === 'Camping' ? 'active' : '' %>">
         <i class="fa-solid fa-campground"></i>
         <span>Camping</span>
     </a>
 
-    <a href="/listings?category=Lakefront" class="filter-item">
+    <a href="/listings?category=Lakefront" class="filter-item <%= category === 'Lakefront' ? 'active' : '' %>">
         <i class="fa-solid fa-water"></i>
         <span>Lakefront</span>
     </a>
 
-    <a href="/listings?category=Countryside" class="filter-item">
+    <a href="/listings?category=Countryside" class="filter-item <%= category === 'Countryside' ? 'active' : '' %>">
         <i class="fa-solid fa-tree"></i>
         <span>Countryside</span>
     </a>
 
-    <a href="/listings?category=City" class="filter-item">
+    <a href="/listings?category=City" class="filter-item <%= category === 'City' ? 'active' : '' %>">
         <i class="fa-solid fa-city"></i>
         <span>City</span>
     </a>
 
-    <a href="/listings?category=Castles" class="filter-item">
+    <a href="/listings?category=Castles" class="filter-item <%= category === 'Castles' ? 'active' : '' %>">
         <i class="fa-solid fa-chess-rook"></i>
         <span>Castles</span>
     </a>
 
-    <a href="/listings?category=Islands" class="filter-item">
+    <a href="/listings?category=Islands" class="filter-item <%= category === 'Islands' ? 'active' : '' %>">
         <i class="fa-solid fa-tree"></i>
         <span>Islands</span>
     </a>
 
-    <a href="/listings?category=Tropical" class="filter-item">
+    <a href="/listings?category=Tropical" class="filter-item <%= category === 'Tropical' ? 'active' : '' %>">
         <i class="fa-solid fa-sun"></i>
         <span>Tropical</span>
     </a>
 
-    <a href="/listings?category=Desert" class="filter-item">
+    <a href="/listings?category=Desert" class="filter-item <%= category === 'Desert' ? 'active' : '' %>">
         <i class="fa-solid fa-sun"></i>
         <span>Desert</span>
     </a>
 
-    <a href="/listings?category=Farms" class="filter-item">
+    <a href="/listings?category=Farms" class="filter-item <%= category === 'Farms' ? 'active' : '' %>">
         <i class="fa-solid fa-wheat-awn"></i>
         <span>Farms</span>
     </a>
 
-    <a href="/listings?category=AmazingViews" class="filter-item">
+    <a href="/listings?category=AmazingViews" class="filter-item <%= category === 'AmazingViews' ? 'active' : '' %>">
         <i class="fa-solid fa-panorama"></i>
         <span>Amazing views</span>
     </a>
@@ -97,34 +105,56 @@
 
 </div>    
 
-     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+     <% if(allListings.length > 0){ %>
+     <div class="browse-grid">
         <%for(let list of allListings){%>
         <a href="/listings/<%= list._id %>" class="listing-link">
-        <div class="card col listing-card" >
-        <div class="card-img-overlay"></div>
-        <img src="<%= list.image.url %>" class="card-img-top" alt="listing_image" style="height:20rem" >
-        <div class="card-body">
-            <p class="card-text">
-                <b><%= list.title %></b>
-                <br>
-            </p>
-            <p class=" card-text listing-price">
-                &#x20B9;
-                <span
-                    class="price-value"
-                    data-base-price="<%= list.price %>"
-                >
-                    <%= list.price %>
-                </span>
-                / night
-
-                <span class="tax-text">18% tax included</span>
-            </p>
-        </div>
-        </div>
+        <article class="card listing-card browse-card">
+            <div class="browse-card-image"><img src="<%= list.image.url %>" class="card-img-top" alt="<%= list.title %>" loading="lazy"><span class="browse-card-view">View stay <i class="fa-solid fa-arrow-right"></i></span></div>
+            <div class="card-body">
+                <div class="browse-card-heading"><h2 class="card-text"><%= list.title %></h2><span class="browse-card-sparkle"><i class="fa-solid fa-sparkles"></i></span></div>
+                <p class="browse-card-location"><i class="fa-solid fa-location-dot"></i> <%= list.location %>, <%= list.country %></p>
+                <p class="card-text listing-price"><strong>&#x20B9;<span class="price-value" data-base-price="<%= list.price %>"><%= list.price.toLocaleString("en-in") %></span></strong><span class="browse-night"> / night</span><span class="tax-text">18% tax included</span></p>
+            </div>
+        </article>
         </a>
     <%}%>
     </div>
+    <% } else { %>
+        <section class="browse-empty"><span><i class="fa-solid fa-compass"></i></span><h2>No stays found just yet</h2><p>Try another search or browse all of our stays to find your next escape.</p><a class="btn" href="/listings">Explore all stays</a></section>
+    <% } %>
+
+<!-- Pagination -->
+<% if (totalPages > 1) { %>
+
+    <div class="pagination">
+
+        <% if (currentPage > 1) { %>
+            <a href="/listings?page=<%= currentPage - 1 %>&search=<%= search || '' %>&category=<%= category || '' %>">
+                ← Previous
+            </a>
+        <% } %>
+
+
+        <% for (let i = 1; i <= totalPages; i++) { %>
+
+            <a href="/listings?page=<%= i %>&search=<%= search || '' %>&category=<%= category || '' %>"
+               class="<%= i === currentPage ? 'active' : '' %>">
+                <%= i %>
+            </a>
+
+        <% } %>
+
+
+        <% if (currentPage < totalPages) { %>
+            <a href="/listings?page=<%= currentPage + 1 %>&search=<%= search || '' %>&category=<%= category || '' %>">
+                Next →
+            </a>
+        <% } %>
+
+    </div>
+
+<% } %>
 
 <script>
     const taxSwitch = document.querySelector("#taxSwitch");
@@ -144,13 +174,13 @@
 
                 const priceWithTax = basePrice * (1 + taxRate);
 
-                price.innerText = Math.round(priceWithTax);
+                price.innerText = Math.round(priceWithTax).toLocaleString("en-IN");
 
                 taxTexts[index].style.display = "inline";
 
             } else {
 
-                price.innerText = basePrice;
+                price.innerText = basePrice.toLocaleString("en-IN");
 
                 taxTexts[index].style.display = "none";
             }
@@ -159,3 +189,4 @@
 
     });
 </script>
+</main>

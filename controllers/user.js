@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const Listing = require("../models/listing");
+const Review = require("../models/review");
 
 module.exports.signupForm = (req,res)=>{
     res.render("users/signup.ejs");
@@ -52,6 +54,14 @@ module.exports.logout = (req,res,next)=>{
             return next(err);
         }
         req.flash("success","Logged out successfully");
-        res.redirect("/listings");
+        res.redirect("/");
     });
+};
+
+module.exports.profile = async (req, res) => {
+    const [listings, reviewCount] = await Promise.all([
+        Listing.find({ owner: req.user._id }).sort({ _id: -1 }),
+        Review.countDocuments({ author: req.user._id })
+    ]);
+    res.render("users/profile.ejs", { listings, reviewCount });
 };

@@ -1,72 +1,108 @@
-const imageInput = document.querySelector("#image");
+const imageInput = document.querySelector("#images");
 const imageError = document.querySelector("#image-error");
 const previewContainer = document.querySelector("#image-preview-container");
 
-imageInput.addEventListener("change", function () {
-
-    const file = this.files[0];
-
+if (imageInput && imageError && previewContainer) {
+  const renderImagePreviews = () => {
     imageError.innerText = "";
     previewContainer.innerHTML = "";
+    const files = Array.from(imageInput.files || []);
+    const oversized = files.find(file => file.size > 5 * 1024 * 1024);
 
-    if (!file) return;
-
-    const maxSize = 5 * 1024 * 1024; // 5 MB
-
-    // Check image size first
-    if (file.size > maxSize) {
-
-        imageError.innerText = "Image size must be less than 5 MB.";
-
-        this.value = "";
-
-        return;
+    if (files.length > 10) imageError.innerText = "Choose no more than 10 photos at a time.";
+    else if (oversized) imageError.innerText = `${oversized.name} is larger than 5 MB.`;
+    if (files.length > 10 || oversized) {
+      imageInput.value = "";
+      return;
     }
 
-    // If size is valid → create preview
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("image-preview");
+    files.forEach((file, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("image-preview");
+      const img = document.createElement("img");
+      const objectUrl = URL.createObjectURL(file);
+      img.src = objectUrl;
+      img.alt = `Selected photo ${index + 1}: ${file.name}`;
+      img.addEventListener("load", () => URL.revokeObjectURL(objectUrl), { once: true });
 
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
+      const removeBtn = document.createElement("button");
+      removeBtn.innerText = "×";
+      removeBtn.type = "button";
+      removeBtn.classList.add("remove-image");
+      removeBtn.setAttribute("aria-label", `Remove ${file.name}`);
+      removeBtn.addEventListener("click", () => {
+        const remainingFiles = files.filter((_, fileIndex) => fileIndex !== index);
+        const transfer = new DataTransfer();
+        remainingFiles.forEach(remainingFile => transfer.items.add(remainingFile));
+        imageInput.files = transfer.files;
+        renderImagePreviews();
+      });
 
-    const removeBtn = document.createElement("button");
-    removeBtn.innerText = "X";
-    removeBtn.type = "button";
-    removeBtn.classList.add("remove-image");
-
-    removeBtn.addEventListener("click", function () {
-        imageInput.value = "";
-        previewContainer.innerHTML = "";
-        imageError.innerText = "";
+      wrapper.append(img, removeBtn);
+      previewContainer.appendChild(wrapper);
     });
+  };
+  imageInput.addEventListener("change", renderImagePreviews);
+}
 
-    wrapper.appendChild(img);
-    wrapper.appendChild(removeBtn);
+const galleryMain = document.querySelector("#show-gallery-main");
+if (galleryMain) {
+  document.querySelectorAll(".show-gallery-thumb").forEach(thumb => {
+    thumb.addEventListener("click", () => {
+      galleryMain.src = thumb.dataset.photoUrl;
+      galleryMain.alt = thumb.dataset.photoAlt;
+      document.querySelectorAll(".show-gallery-thumb").forEach(item => {
+        item.classList.toggle("active", item === thumb);
+        item.setAttribute("aria-pressed", item === thumb ? "true" : "false");
+      });
+    });
+  });
+}
 
-    previewContainer.appendChild(wrapper);
+// Dismiss flash messages automatically, while allowing time to read or pause on hover.
+document.querySelectorAll(".flash-message").forEach(message => {
+  const timeout = Number(message.dataset.flashTimeout) || 5000;
+  const progress = message.querySelector(".flash-progress");
+  let remaining = timeout;
+  let startedAt = Date.now();
+  let timer;
+
+  const dismiss = () => {
+    if (window.bootstrap?.Alert) bootstrap.Alert.getOrCreateInstance(message).close();
+    else message.remove();
+  };
+  const start = () => {
+    startedAt = Date.now();
+    message.classList.remove("flash-paused");
+    if (progress) progress.style.animationDuration = `${remaining}ms`;
+    timer = window.setTimeout(dismiss, remaining);
+  };
+  const pause = () => {
+    window.clearTimeout(timer);
+    remaining = Math.max(0, remaining - (Date.now() - startedAt));
+    message.classList.add("flash-paused");
+  };
+
+  message.addEventListener("mouseenter", pause);
+  message.addEventListener("mouseleave", () => { if (remaining > 0) start(); });
+  message.addEventListener("focusin", pause);
+  message.addEventListener("focusout", event => {
+    if (!message.contains(event.relatedTarget) && remaining > 0) start();
+  });
+  start();
 });
 
-
-//BOOTSTRAP FORM VALIDATOR
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+// Bootstrap form validation
 (() => {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
       if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
+        event.preventDefault();
+        event.stopPropagation();
       }
-
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
-
-
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();

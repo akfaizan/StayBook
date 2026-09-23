@@ -1,89 +1,59 @@
 <% layout("/layouts/boilerplate") -%>
-    
-    <div class="row mt-3">
-        <div class="col-8 offset-2">
-            <h2>Create a new Listing</h2>
-            <form method="post" action="/listings" class="needs-validation" novalidate  enctype="multipart/form-data" >
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" name="listing[title]" placeholder="Enter Title"  required class="form-control">
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a valid name.</div>
+
+<main class="listing-editor-page">
+    <header class="listing-editor-heading">
+        <p class="listing-editor-eyebrow"><i class="fa-solid fa-sparkles"></i> HOST ON STAYBOOK</p>
+        <h1>Give your place a story</h1>
+        <p>Share the details that help guests picture their time away.</p>
+    </header>
+
+    <div class="listing-editor-grid">
+        <form method="post" action="/listings" class="needs-validation listing-editor-form" novalidate enctype="multipart/form-data">
+            <div class="listing-form-section-heading"><span class="listing-form-step">01</span><div><h2>Tell us about your place</h2><p>Start with the details guests will want to know.</p></div></div>
+
+            <div class="mb-4">
+                <label for="title" class="form-label">Listing title</label>
+                <input id="title" type="text" name="listing[title]" placeholder="e.g. A quiet cabin above the lake" required class="form-control">
+                <div class="invalid-feedback">Please enter a title for your stay.</div>
+            </div>
+            <div class="mb-4">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="listing[description]" rows="5" placeholder="What makes this place special? Tell guests what they can look forward to." required class="form-control"></textarea>
+                <div class="invalid-feedback">Please add a description.</div>
+            </div>
+
+            <div class="listing-form-section-heading listing-form-section-spaced"><span class="listing-form-step">02</span><div><h2>Set the scene</h2><p>Add a photo and the key details for your listing.</p></div></div>
+            <div class="mb-4">
+                <label for="images" class="form-label">Listing photos</label>
+                <div class="listing-upload-box"><i class="fa-regular fa-images" aria-hidden="true"></i><span><strong>Choose photos</strong><small>Select up to 10 JPG or PNG images, 5 MB each. The first is your cover photo.</small></span><input type="file" id="images" name="listing[images]" accept="image/png,image/jpeg" multiple required aria-label="Upload listing photos"></div>
+                <div id="image-preview-container"></div>
+                <div id="image-error" class="text-danger mt-2"></div>
+                <div class="invalid-feedback" id="image-required-feedback">Please choose at least one photo.</div>
+            </div>
+
+            <div class="row g-3">
+                <div class="mb-3 col-md-5">
+                    <label for="price" class="form-label">Price per night</label>
+                    <div class="listing-price-input"><span aria-hidden="true">&#x20B9;</span><input id="price" required type="number" min="0" step="0.01" name="listing[price]" placeholder="0" class="form-control"></div>
+                    <div class="invalid-feedback">Please enter a valid price.</div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea type="text" name="listing[description]" required class="form-control"></textarea>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a  description.</div>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="image" class="form-label">Upload image</label>
-                    <input type="file" id="image" name="listing[image]"  class="form-control" accept="image/*" required>
-                    <div id="image-preview-container"></div>
-                    <div id="image-error" class="text-danger mt-2"></div>
-                </div>
-                
-                <div class="row">
-                    <div class="mb-3 col-md-4">
-                    <label for="price" class="form-label">Price</label>
-                    <input required type="text" name="listing[price]" placeholder="Enter price" class="form-control">
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a price.</div>
-                    </div>
-
-                    <div class="mb-3 col-md-8">
-                    <label for="country" class="form-label">Country</label>
-                    <input required type="text" name="listing[country]" placeholder="Enter country" class="form-control">
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a country name.</div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="category" class="form-label">
-                        Category
-                    </label>
-
-                    <select
-                        name="listing[category]"
-                        id="category"
-                        class="form-select"
-                        required
-                    >
-                        <option value="" disabled selected>
-                            Select a category
-                        </option>
-
-                        <option value="Beach">Beach</option>
-                        <option value="Mountains">Mountains</option>
-                        <option value="Cabins">Cabins</option>
-                        <option value="Camping">Camping</option>
-                        <option value="Lakefront">Lakefront</option>
-                        <option value="Countryside">Countryside</option>
-                        <option value="City">City</option>
-                        <option value="Castles">Castles</option>
-                        <option value="Islands">Islands</option>
-                        <option value="Tropical">Tropical</option>
-                        <option value="Desert">Desert</option>
-                        <option value="Farms">Farms</option>
-                        <option value="AmazingViews">AmazingViews</option>
-
+                <div class="mb-3 col-md-7">
+                    <label for="category" class="form-label">Category</label>
+                    <select name="listing[category]" id="category" class="form-select" required>
+                        <option value="" disabled selected>Choose a category</option>
+                        <option value="Trending">Trending</option><option value="Beach">Beach</option><option value="Mountains">Mountains</option><option value="Cabins">Cabins</option><option value="Camping">Camping</option><option value="Lakefront">Lakefront</option><option value="Countryside">Countryside</option><option value="City">City</option><option value="Castles">Castles</option><option value="Islands">Islands</option><option value="Tropical">Tropical</option><option value="Desert">Desert</option><option value="Farms">Farms</option><option value="AmazingViews">Amazing views</option>
                     </select>
+                    <div class="invalid-feedback">Choose a category for your place.</div>
                 </div>
-                    
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input required type="text" name="listing[location]" placeholder="Enter location" class="form-control">
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a location.</div>
-                </div>
-                
-                
-                
-                <br>
-                <button class="btn btn-dark add-btn">Add</button>
-            </form>
+            </div>
+            <div class="row g-3">
+                <div class="mb-3 col-md-6"><label for="location" class="form-label">City or area</label><input id="location" required type="text" name="listing[location]" placeholder="e.g. Manali" class="form-control"><div class="invalid-feedback">Please enter a location.</div></div>
+                <div class="mb-3 col-md-6"><label for="country" class="form-label">Country</label><input id="country" required type="text" name="listing[country]" placeholder="e.g. India" class="form-control"><div class="invalid-feedback">Please enter a country.</div></div>
+            </div>
+
+            <div class="listing-form-actions"><a href="/listings" class="listing-cancel-link">Cancel</a><button class="btn listing-save-button" type="submit">Publish listing <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>
+        </form>
+
+        <aside class="listing-editor-aside"><div class="editor-aside-icon"><i class="fa-regular fa-lightbulb"></i></div><p class="listing-editor-eyebrow">A LITTLE INSPIRATION</p><h2>Help guests imagine being there.</h2><p>Bright photos, a thoughtful description, and accurate details make it easier for the right guests to find your place.</p><div class="editor-aside-tip"><i class="fa-solid fa-check"></i><span>Use a clear cover photo</span></div><div class="editor-aside-tip"><i class="fa-solid fa-check"></i><span>Be specific about the location</span></div><div class="editor-aside-tip"><i class="fa-solid fa-check"></i><span>Set a price that feels right</span></div></aside>
     </div>
-    </div>
+</main>

@@ -1,9 +1,19 @@
 <%- layout("/layouts/boilerplate") %>
 
-<div class="row">
-    <div class="col-6 offset-3">
-        <div class="alert alert-danger" role="alert">
-            <%= message %>
+<main class="error-page">
+    <section class="error-card" aria-labelledby="error-title">
+        <div class="error-illustration" aria-hidden="true">
+            <i class="fa-solid fa-compass"></i>
         </div>
-    </div>
-</div>
+        <p class="error-eyebrow">StayBook</p>
+        <h1 id="error-title"><%= message === "Page Not Found!" ? "We lost this page" : "That didn’t go as planned" %></h1>
+        <p class="error-description">
+            <%= message === "Page Not Found!" ? "The page you’re looking for may have moved, or the link may be out of date." : "Something went wrong while loading this page. You can head back to exploring stays." %>
+        </p>
+        <div class="error-detail alert alert-danger" role="alert"><%= message %></div>
+        <div class="error-actions">
+            <a class="btn btn-dark" href="/listings"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Explore stays</a>
+            <button class="btn btn-outline-secondary" type="button" onclick="history.back()">Go back</button>
+        </div>
+    </section>
+</main>

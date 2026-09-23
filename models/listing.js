@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require("./review");
 
+const imageSchema = new Schema({
+    url: String,
+    filename: String
+}, { _id: false });
+
 const listingSchema = Schema({
     title:{
         type : String,
@@ -14,6 +19,12 @@ const listingSchema = Schema({
        url:String,
        filename:String
     }, 
+    images: [imageSchema],
+    seedKey: {
+        type: String,
+        unique: true,
+        sparse: true
+    },
     price:{
         type:Number,
     }, 

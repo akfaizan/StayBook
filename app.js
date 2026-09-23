@@ -83,6 +83,10 @@ app.use((req,res,next)=>{
     next();
 });
 
+// Home page
+app.get("/",(req,res)=>{
+    res.render("listings/home.ejs");
+});
 
 //users route
 app.use("/",userRoute);

@@ -1,20 +1,26 @@
-<footer class>
-    <div class="f-info">
-        <div class="f-info-socials">
-            <a href="">
-                <i class="fa-brands fa-facebook"></i>
-            </a>
-            <a href="">
-                <i class="fa-brands fa-square-instagram"></i>
-            </a>
-            <a href="">
-                <i class="fa-brands fa-linkedin"></i>
-            </a>
+<footer class="site-footer">
+    <div class="footer-main">
+        <div class="footer-about">
+            <a class="footer-brand" href="/" aria-label="StayBook home"><span class="footer-brand-mark"><i class="fa-solid fa-compass" aria-hidden="true"></i></span><span>StayBook</span></a>
+            <p>Find a place that makes getting away feel like coming home.</p>
         </div>
-        <div class="f-info-brand"> &copy; StayBook Private Limited</div>
-        <div class="f-info-links">
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
+        <div class="footer-navigation">
+            <div class="footer-column"><h2>Discover</h2><a href="/listings">Explore stays</a><a href="/listings?category=Trending">Trending places</a></div>
+            <div class="footer-column"><h2>Make it yours</h2><a href="/listings/new">Become a host</a><% if(currUser) { %><a href="/profile">Your profile</a><% } else { %><a href="/signup">Join StayBook</a><% } %></div>
         </div>
+        <div class="footer-social-block">
+            <h2>Stay inspired</h2>
+            <p>Little reminders to make time for somewhere new.</p>
+            <div class="footer-socials" aria-hidden="true">
+                <span aria-hidden="true"><i class="fa-brands fa-facebook-f"></i></span>
+                <span aria-hidden="true"><i class="fa-brands fa-instagram"></i></span>
+                <span aria-hidden="true"><i class="fa-brands fa-linkedin-in"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; <%= new Date().getFullYear() %> StayBook Private Limited</p>
+        <div class="footer-legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+        <a href="#top" class="footer-back-top">Back to top <i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
     </div>
 </footer>

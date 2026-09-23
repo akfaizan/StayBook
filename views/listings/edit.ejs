@@ -1,126 +1,52 @@
 <% layout("/layouts/boilerplate") -%>
-<body>
-    
-    <div class="row mt-3">
-        <div class="col-8 offset-2">
-            <h2>Edit Listing</h2>
-            <form method="post" action="/listings/<%= listing._id %>?_method=put" novalidate class="needs-validation" enctype="multipart/form-data" >
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input required type="text" name="listing[title]" value="<%= listing.title %>" class="form-control">
-                    <div class="invalid-feedback">Please enter a title.</div>
-                </div>
-            
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea required type="text" name="listing[description]"  class="form-control"><%= listing.description %></textarea>
-                    <div class="invalid-feedback">Please enter a description.</div>
-                </div>
-                
-                <div class="mb-3">
-                    Original Listing Image:
-                    <br>
-                    <img src="<%= listing.image.url %>" class="original-image">
-                </div>
 
-                <div class="mb-3">
-                    <label for="image" class="form-label">Upload New Image </label>
-                    <input type="file" id="image" name="listing[image]"  class="form-control" accept="image/*">
-                    <div id="image-preview-container"></div>
-                    <div id="image-error" class="text-danger mt-2"></div>
+<% const listingPhotos = listing.images && listing.images.length ? listing.images : (listing.image && listing.image.url ? [listing.image] : []); %>
+<main class="listing-editor-page">
+    <header class="listing-editor-heading">
+        <p class="listing-editor-eyebrow"><i class="fa-solid fa-pen-to-square"></i> YOUR HOSTING</p>
+        <h1>Refresh your listing</h1>
+        <p>Keep your stay details current and looking their best.</p>
+    </header>
+
+    <div class="listing-editor-grid">
+        <form method="post" action="/listings/<%= listing._id %>?_method=put" class="needs-validation listing-editor-form" novalidate enctype="multipart/form-data">
+            <div class="listing-form-section-heading"><span class="listing-form-step"><i class="fa-solid fa-check"></i></span><div><h2>Listing details</h2><p>Make any updates to your place.</p></div></div>
+
+            <div class="mb-4"><label for="title" class="form-label">Listing title</label><input id="title" required type="text" name="listing[title]" value="<%= listing.title %>" class="form-control"><div class="invalid-feedback">Please enter a title.</div></div>
+            <div class="mb-4"><label for="description" class="form-label">Description</label><textarea id="description" name="listing[description]" rows="5" required class="form-control"><%= listing.description %></textarea><div class="invalid-feedback">Please enter a description.</div></div>
+
+            <div class="mb-4">
+                <span class="form-label d-block">Current photos <span class="form-label-optional">Select any you want to remove</span></span>
+                <div class="listing-current-photos">
+                    <% for(let photo of listingPhotos) { %>
+                        <label class="listing-current-photo"><img src="<%= photo.url %>" alt="Photo for <%= listing.title %>"><span class="listing-photo-remove"><input type="checkbox" name="listing[removeImages]" value="<%= photo.filename %>"> Remove</span></label>
+                    <% } %>
                 </div>
+            </div>
+            <div class="mb-4">
+                <label for="images" class="form-label">Add photos <span class="form-label-optional">Optional</span></label>
+                <div class="listing-upload-box"><i class="fa-regular fa-images" aria-hidden="true"></i><span><strong>Choose more photos</strong><small>Select up to 10 JPG or PNG images, 5 MB each</small></span><input type="file" id="images" name="listing[images]" accept="image/png,image/jpeg" multiple aria-label="Upload more listing photos"></div>
+                <div id="image-preview-container"></div><div id="image-error" class="text-danger mt-2"></div>
+            </div>
 
-
-                <div class="row">
-                        <div class="mb-3 col-md-4">
-                            <label for="price" class="form-label">Price</label>
-                            <input required type="text" name="listing[price]" value="<%= listing.price %>"  class="form-control">
-                            <div class="invalid-feedback">Please enter a price.</div>
-                        </div>
-
-                         <div class="mb-3 col-md-8">
-                            <label for="country" class="form-label">Country</label>
-                            <input required type="text" name="listing[country]" value="<%= listing.country %>"  class="form-control">
-                            <div class="invalid-feedback">Please enter a country.</div>
-                        </div>
-                </div>
-                
-                
-                <div class="mb-3">
+            <div class="row g-3">
+                <div class="mb-3 col-md-5"><label for="price" class="form-label">Price per night</label><div class="listing-price-input"><span aria-hidden="true">&#x20B9;</span><input id="price" required type="number" min="0" step="0.01" name="listing[price]" value="<%= listing.price %>" class="form-control"></div><div class="invalid-feedback">Please enter a valid price.</div></div>
+                <div class="mb-3 col-md-7">
                     <label for="category" class="form-label">Category</label>
-
-                    <select
-                        name="listing[category]"
-                        id="category"
-                        class="form-select"
-                        required
-                    >
+                    <select name="listing[category]" id="category" class="form-select" required>
                         <option value="" disabled>Select a category</option>
-
-                        <option value="Beach" <%= listing.category === "Beach" ? "selected" : "" %>>
-                            Beach
-                        </option>
-
-                        <option value="Mountains" <%= listing.category === "Mountains" ? "selected" : "" %>>
-                            Mountains
-                        </option>
-
-                        <option value="Cabins" <%= listing.category === "Cabins" ? "selected" : "" %>>
-                            Cabins
-                        </option>
-
-                        <option value="Camping" <%= listing.category === "Camping" ? "selected" : "" %>>
-                            Camping
-                        </option>
-
-                        <option value="Lakefront" <%= listing.category === "Lakefront" ? "selected" : "" %>>
-                            Lakefront
-                        </option>
-
-                        <option value="Countryside" <%= listing.category === "Countryside" ? "selected" : "" %>>
-                            Countryside
-                        </option>
-
-                        <option value="City" <%= listing.category === "City" ? "selected" : "" %>>
-                            City
-                        </option>
-
-                        <option value="Castles" <%= listing.category === "Castles" ? "selected" : "" %>>
-                            Castles
-                        </option>
-
-                        <option value="Islands" <%= listing.category === "Islands" ? "selected" : "" %>>
-                            Islands
-                        </option>
-
-                        <option value="Tropical" <%= listing.category === "Tropical" ? "selected" : "" %>>
-                            Tropical
-                        </option>
-
-                        <option value="Desert" <%= listing.category === "Desert" ? "selected" : "" %>>
-                            Desert
-                        </option>
-
-                        <option value="Farms" <%= listing.category === "Farms" ? "selected" : "" %>>
-                            Farms
-                        </option>
-
-                        <option value="AmazingViews" <%= listing.category === "AmazingViews" ? "selected" : "" %>>
-                            Amazing Views
-                        </option>
+                        <option value="Trending" <%= listing.category === "Trending" ? "selected" : "" %>>Trending</option><option value="Beach" <%= listing.category === "Beach" ? "selected" : "" %>>Beach</option><option value="Mountains" <%= listing.category === "Mountains" ? "selected" : "" %>>Mountains</option><option value="Cabins" <%= listing.category === "Cabins" ? "selected" : "" %>>Cabins</option><option value="Camping" <%= listing.category === "Camping" ? "selected" : "" %>>Camping</option><option value="Lakefront" <%= listing.category === "Lakefront" ? "selected" : "" %>>Lakefront</option><option value="Countryside" <%= listing.category === "Countryside" ? "selected" : "" %>>Countryside</option><option value="City" <%= listing.category === "City" ? "selected" : "" %>>City</option><option value="Castles" <%= listing.category === "Castles" ? "selected" : "" %>>Castles</option><option value="Islands" <%= listing.category === "Islands" ? "selected" : "" %>>Islands</option><option value="Tropical" <%= listing.category === "Tropical" ? "selected" : "" %>>Tropical</option><option value="Desert" <%= listing.category === "Desert" ? "selected" : "" %>>Desert</option><option value="Farms" <%= listing.category === "Farms" ? "selected" : "" %>>Farms</option><option value="AmazingViews" <%= listing.category === "AmazingViews" ? "selected" : "" %>>Amazing views</option>
                     </select>
+                    <div class="invalid-feedback">Choose a category for your place.</div>
                 </div>
+            </div>
+            <div class="row g-3">
+                <div class="mb-3 col-md-6"><label for="location" class="form-label">City or area</label><input id="location" required type="text" name="listing[location]" value="<%= listing.location %>" class="form-control"><div class="invalid-feedback">Please enter a location.</div></div>
+                <div class="mb-3 col-md-6"><label for="country" class="form-label">Country</label><input id="country" required type="text" name="listing[country]" value="<%= listing.country %>" class="form-control"><div class="invalid-feedback">Please enter a country.</div></div>
+            </div>
+            <div class="listing-form-actions"><a href="/listings/<%= listing._id %>" class="listing-cancel-link">Cancel</a><button class="btn listing-save-button" type="submit">Save changes <i class="fa-solid fa-check" aria-hidden="true"></i></button></div>
+        </form>
 
-
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input required type="text" name="listing[location]" value="<%= listing.location %>"  class="form-control">
-                    <div class="invalid-feedback">Please enter a location.</div>
-                </div>
-                <br>
-                <button class="btn btn-dark edit-btn">Edit</button>
-            </form>
-        </div>
+        <aside class="listing-editor-aside listing-editor-aside-edit"><div class="editor-aside-icon"><i class="fa-solid fa-arrows-rotate"></i></div><p class="listing-editor-eyebrow">KEEP IT FRESH</p><h2>Small updates make a big difference.</h2><p>Make sure your price, location, and photos still reflect what guests can expect when they arrive.</p><a href="/listings/<%= listing._id %>" class="editor-preview-link"><i class="fa-regular fa-eye"></i> Preview your listing</a></aside>
     </div>
-    
-</body>
+</main>

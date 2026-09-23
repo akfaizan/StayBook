@@ -1,40 +1,44 @@
-<nav class="navbar navbar-expand-md bg-body-light sticky-top border-bottom ">
+<nav id="top" class="navbar navbar-expand-lg sticky-top site-navbar" aria-label="Main navigation">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="/" aria-label="StayBook home">
+      <span class="brand-mark"><i class="fa-solid fa-compass" aria-hidden="true"></i></span>
+      <span class="brand-name">StayBook</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#stayBookNav" aria-controls="stayBookNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" aria-hidden="true"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+    <div class="collapse navbar-collapse" id="stayBookNav">
+      <div class="navbar-nav nav-main">
+        <a class="nav-link explore-link" href="/listings"><i class="fa-regular fa-compass" aria-hidden="true"></i> Explore</a>
       </div>
-
-
-      <form class="d-flex navbar-search" action="/listings" method="GET">
-          <input
-              class="form-control"
-              type="search"
-              name="search"
-              placeholder="Search destinations"
-              aria-label="Search"
-          >
-
-          <button class="search-btn" type="submit">
-              <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-      </form>
-
-
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">AirBnb Your Home</a>
-        <% if(!currUser){ %>
-        <a class="nav-link active" aria-current="page" href="/signup"><b>SignUp</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-        <% } %>
-        <% if(currUser){ %>
-        <a class="nav-link" href="/logout"><b>Logout</b></a>
-        <% } %>
+      <div class="navbar-nav nav-host">
+        <a class="nav-link host-link" href="/listings/new"><i class="fa-solid fa-house-circle-check" aria-hidden="true"></i> Become a host</a>
       </div>
+    </div>
+
+    <form class="navbar-search" action="/listings" method="GET" role="search">
+        <input
+            class="form-control"
+            type="search"
+            name="search"
+            placeholder="Where would you like to go?"
+            aria-label="Search destinations"
+            autocomplete="off"
+        >
+        <button class="search-btn" type="submit" aria-label="Search stays">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        </button>
+    </form>
+
+    <div class="navbar-nav account-actions">
+      <% if(!currUser){ %>
+      <a class="nav-link login-link" href="/login">Log in</a>
+      <a class="nav-link signup-link" href="/signup">Sign up <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <% } %>
+      <% if(currUser){ %>
+      <a class="nav-user" href="/profile" aria-label="View your profile"><span class="nav-user-avatar"><%= currUser.username.charAt(0).toUpperCase() %></span><span class="nav-user-name"><%= currUser.username %></span></a>
+      <a class="nav-link logout-link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Log out</span></a>
+      <% } %>
     </div>
   </div>
 </nav>

@@ -1,32 +1,36 @@
 <% layout("/layouts/boilerplate") -%>
-    
-    <div class="row mt-3">
-        <div class="col-6 offset-3">
-            <h2>Sign-Up on WanderLust</h2>
-            <form method="POST" action="/signup" class="needs-validation" novalidate>
-                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input id="username" type="text" name="username" placeholder="Enter a valid username" class="form-control" required>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a valid username.</div>
-                 </div>
 
-                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input id="email" type="text" name="email" placeholder="Enter your email" class="form-control" required>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a valid email.</div>
-                 </div>
-
-                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input id="password" type="password" name="password" placeholder="Enter new password" class="form-control" required>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please enter a valid password.</div>
-                 </div>
-
-                 <button class="btn btn-success">Sign Up</button>
-
-            </form>
+<main class="auth-page">
+    <section class="auth-card" aria-labelledby="auth-title">
+        <div class="auth-art auth-art-signup" aria-hidden="true">
+            <div class="auth-art-mark"><i class="fa-solid fa-compass"></i></div>
+            <span class="auth-art-sun"></span><span class="auth-art-orbit auth-orbit-one"></span><span class="auth-art-orbit auth-orbit-two"></span>
+            <div class="auth-art-caption"><span>Make room for wonder.</span><strong>Find a stay that feels like your kind of place.</strong></div>
         </div>
-    </div>
+        <div class="auth-content">
+            <p class="auth-eyebrow">YOUR JOURNEY STARTS HERE</p>
+            <h1 id="auth-title">Create your account</h1>
+            <p class="auth-intro">Join StayBook and start planning your next getaway.</p>
+
+            <form method="POST" action="/signup" class="needs-validation auth-form" novalidate>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="auth-input-wrap"><i class="fa-regular fa-user" aria-hidden="true"></i><input id="username" type="text" name="username" placeholder="Choose a username" class="form-control" autocomplete="username" required></div>
+                    <div class="invalid-feedback">Please enter a username.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <div class="auth-input-wrap"><i class="fa-regular fa-envelope" aria-hidden="true"></i><input id="email" type="email" name="email" placeholder="you@example.com" class="form-control" autocomplete="email" required></div>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="auth-input-wrap"><i class="fa-solid fa-lock" aria-hidden="true"></i><input id="password" type="password" name="password" placeholder="Create a password" class="form-control" autocomplete="new-password" required></div>
+                    <div class="invalid-feedback">Please enter a password.</div>
+                </div>
+                <button class="btn auth-submit" type="submit">Create account <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p>
+        </div>
+    </section>
+</main>

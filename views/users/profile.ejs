@@ -1,0 +1,35 @@
+<% layout("/layouts/boilerplate") -%>
+
+<main class="profile-page">
+    <section class="profile-hero">
+        <div class="profile-hero-decoration" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="profile-identity">
+            <div class="profile-avatar"><%= currUser.username.charAt(0).toUpperCase() %></div>
+            <div><p class="profile-eyebrow">YOUR STAYBOOK</p><h1><%= currUser.username %></h1><p class="profile-email"><i class="fa-regular fa-envelope"></i> <%= currUser.email %></p></div>
+        </div>
+        <a href="/listings/new" class="btn profile-host-button"><i class="fa-solid fa-plus"></i> Host a stay</a>
+    </section>
+
+    <section class="profile-stats" aria-label="Your StayBook activity">
+        <article class="profile-stat"><span class="profile-stat-icon profile-stat-home"><i class="fa-solid fa-house"></i></span><span><strong><%= listings.length %></strong><small><%= listings.length === 1 ? 'Stay hosted' : 'Stays hosted' %></small></span></article>
+        <article class="profile-stat"><span class="profile-stat-icon profile-stat-review"><i class="fa-regular fa-star"></i></span><span><strong><%= reviewCount %></strong><small><%= reviewCount === 1 ? 'Review shared' : 'Reviews shared' %></small></span></article>
+        <article class="profile-stat"><span class="profile-stat-icon profile-stat-explore"><i class="fa-regular fa-compass"></i></span><span><strong>Explore</strong><small>Find your next getaway</small></span><a class="profile-stat-link" href="/listings" aria-label="Explore stays"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></article>
+    </section>
+
+    <section class="profile-listings">
+        <div class="profile-section-heading"><div><p class="profile-eyebrow">YOUR HOSTING</p><h2>Your stays</h2><p>Places you’ve shared with the StayBook community.</p></div></div>
+        <% if(listings.length) { %>
+            <div class="profile-listing-grid">
+                <% for(let listing of listings) { %>
+                    <a href="/listings/<%= listing._id %>" class="profile-listing-card">
+                        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
+                        <div class="profile-listing-copy"><h3><%= listing.title %></h3><p><i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %></p><strong>&#x20B9;<%= listing.price.toLocaleString("en-IN") %> <span>/ night</span></strong></div>
+                        <span class="profile-listing-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="profile-empty"><span><i class="fa-solid fa-house-circle-check"></i></span><div><h3>Your hosting story starts here</h3><p>Share a special place and welcome guests from around the world.</p></div><a href="/listings/new" class="btn">Create your first listing</a></div>
+        <% } %>
+    </section>
+</main>
